@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_804eef8b864b73ce49ec9770571bb7c9 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    <div style='position:fixed;bottom:24px;left:24px;z-index:9999;background:white;padding:8px 10px;border:1px solid #999;border-radius:6px;font:12px sans-serif;width:240px'><div style='margin-bottom:6px'>overlay opacity <input id='opac' type='range' min='0' max='1' step='0.05' value='0.65' style='vertical-align:middle;width:140px'></div><b>Suitability colours</b> <span style='color:#777'>(same on every map, 10 m and 1 m)</span><div style='height:10px;margin-top:3px;background:linear-gradient(90deg,rgb(0,104,55) 0%,rgb(45,161,85) 12%,rgb(135,203,103) 25%,rgb(203,233,130) 38%,rgb(255,254,190) 50%,rgb(254,210,127) 62%,rgb(249,142,82) 75%,rgb(222,64,46) 88%,rgb(165,0,38) 100%)'></div><div style='display:flex;justify-content:space-between;font-size:10px;color:#555'><span>0.00</span><span>0.15</span><span>0.30</span><span>0.45</span><span>0.60</span><span>0.75+</span></div><div style='margin-top:6px'><b>Distribution</b> <span style='color:#777'>(Sofielund Model 11, 1 m)</span></div><img src='data:image/png;base64,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' style='width:215px;display:block'><span style='color:#555'>median 0.49 &middot; most 0.08-0.70 &middot; black line = median<br>click a pixel &rarr; value + how high it ranks</span></div>
+    
+<script src='https://cdn.jsdelivr.net/npm/proj4@2.9.0/dist/proj4.js'></script>
+<script>
+(function(){
+proj4.defs('EPSG:3006','+proj=utm +zone=33 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+var CFG = {"swap": 0, "names": ["Low tree canopy", "Heat stress (hot spot)", "Far from a park", "Deprived/low-income area", "Heat-vulnerable residents"], "policies": ["OP2023: city blocks shall have at least 30 percent crown cover", "Trädsårbarhet report: areas with many hours above 60 °C indicate places that are particularly exposed", "OP2023: within 300 m of a dwelling there shall be a park of at least 0.2 ha, and within 500 m one of at least 1 ha", "OP2023: access to parks and nature shall increase, with areas of poorer access particularly prioritised", "Trädsårbarhet report: the vulnerability index works well for comparing how exposed different trees and areas are"], "groupName": "Sofielund Model 11 - all pixels (1 m)", "city": null, "bounds": [[55.57877233346364, 13.006069676288696], [55.592183361933124, 13.021369298568763]], "nbs": [{"key": "sofielund", "label": "Sofielund", "js": "nb/sofielund_m11_1m.js", "bounds": [[55.57877233346364, 13.006069676288696], [55.592183361933124, 13.021369298568763]]}], "lut": [[0, 104, 55], [1, 106, 56], [2, 108, 57], [3, 110, 58], [4, 112, 59], [5, 113, 60], [6, 115, 61], [7, 117, 62], [8, 119, 63], [9, 121, 64], [10, 123, 65], [11, 125, 66], [12, 127, 67], [13, 128, 68], [14, 130, 69], [15, 132, 70], [16, 134, 71], [17, 136, 72], [18, 138, 73], [19, 140, 74], [20, 142, 75], [21, 144, 76], [22, 145, 77], [23, 147, 78], [24, 149, 79], [25, 151, 80], [27, 153, 80], [30, 154, 81], [33, 156, 82], [36, 157, 83], [39, 159, 83], [42, 160, 84], [45, 161, 85], [48, 163, 86], [51, 164, 86], [54, 166, 87], [57, 167, 88], [60, 169, 89], [63, 170, 89], [66, 172, 90], [69, 173, 91], [72, 174, 92], [75, 176, 92], [78, 177, 93], [81, 179, 94], [84, 180, 95], [87, 182, 95], [90, 183, 96], [93, 185, 97], [96, 186, 98], [99, 188, 98], [102, 189, 99], [105, 190, 99], [107, 191, 100], [110, 192, 100], [112, 193, 100], [115, 194, 100], [117, 196, 101], [120, 197, 101], [122, 198, 101], [125, 199, 101], [127, 200, 102], [130, 201, 102], [132, 202, 102], [135, 203, 103], [137, 204, 103], [140, 205, 103], [142, 207, 103], [145, 208, 104], [147, 209, 104], [150, 210, 104], [152, 211, 104], [155, 212, 105], [157, 213, 105], [160, 214, 105], [162, 215, 106], [165, 216, 106], [167, 217, 107], [169, 218, 108], [171, 219, 109], [173, 220, 111], [175, 221, 112], [177, 222, 113], [179, 223, 114], [181, 223, 116], [183, 224, 117], [185, 225, 118], [187, 226, 120], [189, 227, 121], [191, 228, 122], [193, 229, 123], [195, 230, 125], [197, 230, 126], [199, 231, 127], [201, 232, 129], [203, 233, 130], [205, 234, 131], [207, 235, 133], [209, 236, 134], [211, 236, 135], [213, 237, 136], [215, 238, 138], [217, 239, 139], [218, 240, 141], [220, 240, 143], [221, 241, 145], [223, 242, 147], [224, 242, 149], [226, 243, 151], [227, 243, 153], [229, 244, 155], [230, 245, 157], [232, 245, 159], [233, 246, 161], [235, 247, 163], [236, 247, 166], [238, 248, 168], [239, 248, 170], [241, 249, 172], [242, 250, 174], [244, 250, 176], [245, 251, 178], [247, 252, 180], [248, 252, 182], [250, 253, 184], [251, 253, 186], [253, 254, 188], [255, 254, 190], [255, 253, 188], [255, 252, 186], [255, 251, 184], [255, 250, 182], [255, 248, 180], [255, 247, 178], [255, 246, 176], [255, 245, 174], [255, 243, 172], [255, 242, 170], [255, 241, 168], [255, 240, 166], [254, 239, 163], [254, 237, 161], [254, 236, 159], [254, 235, 157], [254, 234, 155], [254, 233, 153], [254, 231, 151], [254, 230, 149], [254, 229, 147], [254, 228, 145], [254, 226, 143], [254, 225, 141], [254, 224, 139], [254, 222, 137], [254, 220, 136], [254, 218, 134], [254, 216, 132], [254, 214, 131], [254, 212, 129], [254, 210, 127], [254, 208, 126], [254, 206, 124], [254, 204, 123], [254, 202, 121], [254, 200, 119], [253, 199, 118], [253, 197, 116], [253, 195, 114], [253, 193, 113], [253, 191, 111], [253, 189, 109], [253, 187, 108], [253, 185, 106], [253, 183, 104], [253, 181, 103], [253, 179, 101], [253, 177, 99], [253, 175, 98], [253, 173, 96], [252, 170, 95], [252, 168, 94], [252, 165, 93], [251, 163, 92], [251, 160, 91], [251, 157, 89], [250, 155, 88], [250, 152, 87], [250, 150, 86], [249, 147, 85], [249, 145, 83], [249, 142, 82], [248, 140, 81], [248, 137, 80], [248, 134, 79], [247, 132, 78], [247, 129, 76], [246, 127, 75], [246, 124, 74], [246, 122, 73], [245, 119, 72], [245, 117, 71], [245, 114, 69], [244, 112, 68], [244, 109, 67], [243, 107, 66], [242, 104, 65], [241, 102, 64], [239, 99, 63], [238, 97, 62], [237, 95, 60], [236, 92, 59], [235, 90, 58], [234, 87, 57], [233, 85, 56], [231, 83, 55], [230, 80, 54], [229, 78, 53], [228, 76, 52], [227, 73, 51], [226, 71, 49], [225, 68, 48], [224, 66, 47], [222, 64, 46], [221, 61, 45], [220, 59, 44], [219, 56, 43], [218, 54, 42], [217, 52, 41], [216, 49, 40], [214, 47, 39], [212, 45, 39], [210, 43, 39], [208, 41, 39], [206, 40, 39], [204, 38, 39], [202, 36, 39], [200, 34, 39], [198, 32, 39], [196, 30, 39], [194, 28, 39], [192, 26, 39], [190, 24, 39], [189, 23, 38], [187, 21, 38], [185, 19, 38], [183, 17, 38], [181, 15, 38], [179, 13, 38], [177, 11, 38], [175, 9, 38], [173, 8, 38], [171, 6, 38], [169, 4, 38], [167, 2, 38], [165, 0, 38]], "vmax": 0.75, "classes": [[0.15, "Very low"], [0.3, "Low"], [0.45, "Medium"], [0.6, "High"], [99, "Very high"]]};
+var LUT=CFG.lut, VMAX=CFG.vmax, NONE=255;
+function cindex(v){ var k=Math.round(v/VMAX*254); return k<0?0:(k>254?254:k); }
+function inflate(b64){
+  if (typeof DecompressionStream === 'undefined') return Promise.reject(new Error('This browser is too old to unpack the map data; please update it.'));
+  var s=atob(b64), n=s.length, u=new Uint8Array(n); for (var i=0;i<n;i++) u[i]=s.charCodeAt(i);
+  return new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer()
+    .then(function(b){ return new Uint8Array(b); });
+}
+function decode(d){
+  return Promise.all([inflate(d.data), inflate(d.table)]).then(function(r){
+    var a=r[0], N=d.W*d.H, hi=a.subarray(0,N), lo=a.subarray(N,2*N);
+    var table=new Uint16Array(r[1].buffer, r[1].byteOffset, r[1].byteLength/2);
+    var tc=new Uint8Array(65535); for (var k=0;k<65535;k++) tc[k]=cindex(table[k]/10000);
+    var col=new Uint8Array(N); for (var i=0;i<N;i++){ var q=(hi[i]<<8)|lo[i]; col[i]=(q===65535)?NONE:tc[q]; }
+    return {W:d.W, H:d.H, minx:d.minx, maxy:d.maxy, sp:d.sp, label:d.label, scope:d.scope,
+            hi:hi, lo:lo, pf:a.subarray(2*N,3*N), table:table, col:col};
+  });
+}
+function lookup(g, lat, lng){
+  var p=proj4('EPSG:3006',[lng,lat]);
+  var col=Math.round((p[0]-g.minx)/g.sp), row=Math.round((g.maxy-p[1])/g.sp);
+  if (col<0||col>=g.W||row<0||row>=g.H) return null;
+  var i=row*g.W+col; return {q:(g.hi[i]<<8)|g.lo[i], pf:g.pf[i]};
+}
+function scoreHtml(g, r, reasonLabel, extra){
+  var q=r.q, v=g.table[q]/10000, pct=q/65534*100, top=Math.max(1,Math.round(100-pct)), pr=r.pf&7;
+  var nm=pr==7?'-':CFG.names[pr], po=pr==7?'':CFG.policies[pr];
+  var t=LUT[cindex(v)], fg=(0.299*t[0]+0.587*t[1]+0.114*t[2])>150?'#222':'#fff', cl=CFG.classes[CFG.classes.length-1][1];
+  for (var k=0;k<CFG.classes.length;k++) if (v<CFG.classes[k][0]){ cl=CFG.classes[k][1]; break; }
+  return "<div style='font:12px sans-serif;width:260px'><b style='font-size:14px'>Suitability "+v.toFixed(2)+"</b> "+
+    "<span style='background:rgb("+t+");color:"+fg+";padding:1px 6px;border-radius:3px'>"+cl+"</span> "+
+    "<span style='color:#777'>("+g.sp+" m px)</span><br><span style='color:#555'>higher than "+Math.round(pct)+
+    "% of "+g.scope+" (top "+top+"%)</span><br>"+reasonLabel+": <b>"+nm+"</b><br><span style='color:#555'>Policy: "+po+
+    "</span>"+(extra||'')+"</div>";
+}
+function flagNotes(pf){
+  var s='', t=(pf>>3)&3;
+  if (t) s+="<br><span style='color:#a15c00'>Check on site at 1 m: touches "+(t==1?'a paved road':t==2?'a building':'a paved road and a building')+"</span>";
+  if (pf&32) s+="<br><span style='color:#777'>Heat estimated here (no heat model value), so heat is not given as the reason</span>";
+  return s;
+}
+window.addEventListener('load', function(){ setTimeout(function(){
+  var mp=map_804eef8b864b73ce49ec9770571bb7c9, ctl=layer_control_8d58f9036f8105cc9f197b64d047de71, cityG=null, cityP=Promise.resolve(), NB=CFG.nbs;
+  if (CFG.city) cityP=decode(CFG.city).then(function(g){ cityG=g; });
+  NB.forEach(function(nb){ nb.llb=L.latLngBounds(nb.bounds); });
+  window.G2G_1M=window.G2G_1M||{};
+  function load(nb){
+    if (nb.p) return nb.p;
+    nb.p=new Promise(function(res, rej){
+      var s=document.createElement('script'); s.src=nb.js;
+      s.onload=function(){ var d=window.G2G_1M[nb.key]; if (!d){ rej(new Error('No data in '+nb.js)); return; }
+                           decode(d).then(function(g){ nb.g=g; res(g); }, rej); };
+      s.onerror=function(){ nb.p=null; rej(new Error('Could not load the 1 m data for '+nb.label+'.')); };
+      document.head.appendChild(s);
+    });
+    return nb.p;
+  }
+  // colour index at an EPSG:3006 position: a neighbourhood's 1 m pixel when zoomed in over it, else the 10 m square
+  function cidxAt(x, y, nbs){
+    for (var k=0;k<nbs.length;k++){
+      var g=nbs[k].g, c=Math.round((x-g.minx)/g.sp), r=Math.round((g.maxy-y)/g.sp);
+      if (c<0||c>=g.W||r<0||r>=g.H) continue;
+      var i=r*g.W+c, pf=g.pf[i];
+      if (!(pf&64)) continue;                 // outside this neighbourhood
+      if (!(pf&32)) return g.col[i];          // its 1 m value (or nothing, where 1 m excludes the spot)
+      break;                                  // heat estimated here: show the 10 m square
+    }
+    if (!cityG) return NONE;
+    var cc=Math.round((x-cityG.minx)/cityG.sp), rr=Math.round((cityG.maxy-y)/cityG.sp);
+    if (cc<0||cc>=cityG.W||rr<0||rr>=cityG.H) return NONE;
+    return cityG.col[rr*cityG.W+cc];
+  }
+  var Grid=L.GridLayer.extend({
+    createTile: function(coords){
+      var size=this.getTileSize(), dpr=Math.min(2, window.devicePixelRatio||1);
+      var W=Math.round(size.x*dpr), H=Math.round(size.y*dpr), cv=document.createElement('canvas');
+      cv.width=W; cv.height=H; cv.style.width=size.x+'px'; cv.style.height=size.y+'px';
+      var z=coords.z, nw=coords.scaleBy(size);
+      function at(dx, dy){ var ll=mp.unproject(L.point(nw.x+dx, nw.y+dy), z); return proj4('EPSG:3006',[ll.lng, ll.lat]); }
+      var a=at(0,0), b=at(size.x,0), d=at(0,size.y), e=at(size.x,size.y);
+      var tb=L.latLngBounds(mp.unproject(nw, z), mp.unproject(nw.add(size), z));
+      var nbs=(z>=CFG.swap)?NB.filter(function(nb){ return nb.g && tb.intersects(nb.llb); }):[];
+      if (!nbs.length && !cityG) return cv;
+      var sp=nbs.length?nbs[0].g.sp:cityG.sp, px=Math.sqrt((b[0]-a[0])*(b[0]-a[0])+(b[1]-a[1])*(b[1]-a[1]))/W;
+      var ss=px>2.5*sp?3:(px>1.25*sp?2:1);                      // average several samples when zoomed out
+      var ctx=cv.getContext('2d'), img=ctx.createImageData(W, H), o=img.data;
+      var ux=b[0]-a[0], uy=b[1]-a[1], vx=d[0]-a[0], vy=d[1]-a[1], wx=a[0]-b[0]-d[0]+e[0], wy=a[1]-b[1]-d[1]+e[1];
+      for (var j=0;j<H;j++) for (var i=0;i<W;i++){
+        var R=0, G=0, B=0, m=0;
+        for (var sy=0;sy<ss;sy++) for (var sx=0;sx<ss;sx++){
+          var u=(i+(sx+0.5)/ss)/W, v=(j+(sy+0.5)/ss)/H;
+          var k=cidxAt(a[0]+ux*u+vx*v+wx*u*v, a[1]+uy*u+vy*v+wy*u*v, nbs);
+          if (k!==NONE){ var t=LUT[k]; R+=t[0]; G+=t[1]; B+=t[2]; m++; }
+        }
+        if (m){ var p=(j*W+i)*4; o[p]=R/m; o[p+1]=G/m; o[p+2]=B/m; o[p+3]=255; }   // average colour of the scored samples
+      }
+      ctx.putImageData(img, 0, 0);
+      return cv;
+    }
+  });
+  var grid=new Grid({opacity:0.65, pane:'overlayPane', bounds:L.latLngBounds(CFG.bounds), maxZoom:21,
+                     updateWhenZooming:false, keepBuffer:1});
+  window.G2G={grid:grid, nbs:NB, load:load};
+  function update(){
+    if (mp.getZoom()<CFG.swap) return;
+    var vb=mp.getBounds();
+    NB.forEach(function(nb){ if (!nb.g && !nb.p && vb.intersects(nb.llb))
+      load(nb).then(function(){ if (grid._map) grid.redraw(); }, function(){}); });
+  }
+  cityP.then(function(){ grid.addTo(mp); ctl.addOverlay(grid, CFG.groupName); mp.on('zoomend moveend', update); update(); });
+  var sl=document.getElementById('opac');
+  if (sl) sl.addEventListener('input', function(){ grid.setOpacity(parseFloat(sl.value)); });
+  function cityHtml(lat, lng, extra){
+    if (!cityG) return null; var r=lookup(cityG, lat, lng); if (!r || r.q===65535) return null;
+    return scoreHtml(cityG, r, 'Main reason', flagNotes(r.pf)+(extra||''));
+  }
+  mp.on('click', function(e){
+    var la=e.latlng.lat, lo=e.latlng.lng, hi=mp.getZoom()>=CFG.swap, pop=null;
+    var cand=hi ? NB.filter(function(nb){ return nb.llb.contains(e.latlng); }) : [];
+    var fresh=cand.some(function(nb){ return !nb.g; });
+    function show(h){ if (!h){ if (pop) mp.closePopup(pop); return; }
+                      if (pop) pop.setContent(h); else L.popup().setLatLng(e.latlng).setContent(h).openOn(mp); }
+    if (fresh || (CFG.city && !cityG))
+      pop=L.popup().setLatLng(e.latlng).setContent("<div style='font:12px sans-serif'>Loading the map data&hellip;</div>").openOn(mp);
+    Promise.all([cityP].concat(cand.map(load))).then(function(){
+      if (fresh && grid._map) grid.redraw();                             // draw the 1 m data that just arrived
+      for (var k=0; k<cand.length; k++){
+        var nb=cand[k], r=lookup(nb.g, la, lo);
+        if (!r || !(r.pf&64)) continue;                                  // outside this neighbourhood
+        if (r.q!==65535) return show(scoreHtml(nb.g, r, 'Main reason (its 10 m square)', ''));
+        if (r.pf&32) return show(cityHtml(la, lo, "<br><span style='color:#777'>No 1 m value here: Model 11 estimates heat in this part of "+
+                                 nb.label+", which the saved 1 m run cannot reproduce, so the 10 m value is shown.</span>"));
+        return show("<div style='font:12px sans-serif;width:240px'><b>No 1 m score here</b><br><span style='color:#555'>"+
+                    "This spot is excluded at 1 m (for example a building, the road surface, water, railway, existing tree canopy "+
+                    "or a sports ground).</span></div>");
+      }
+      show(cityHtml(la, lo, ''));
+    }, function(err){ show(cityHtml(la, lo, "<br><span style='color:#777'>"+err.message+"</span>") ||
+                           "<div style='font:12px sans-serif'>"+err.message+"</div>"); });
+  });
+}, 500); });
+})();
+</script>
+    
+            <div class="folium-map" id="map_804eef8b864b73ce49ec9770571bb7c9" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_804eef8b864b73ce49ec9770571bb7c9 = L.map(
+                "map_804eef8b864b73ce49ec9770571bb7c9",
+                {
+                    center: [55.5852086241953, 13.015247487740982],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_361b2ca7f57cdc5b670699a69d632173 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 21,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "Esri World Imagery",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_361b2ca7f57cdc5b670699a69d632173.addTo(map_804eef8b864b73ce49ec9770571bb7c9);
+        
+    
+            var tile_layer_69072f855030fbaaf39347ee53901cfa = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 21,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            var layer_control_8d58f9036f8105cc9f197b64d047de71_layers = {
+                base_layers : {
+                    "Satellite (true colour)" : tile_layer_361b2ca7f57cdc5b670699a69d632173,
+                    "Street map" : tile_layer_69072f855030fbaaf39347ee53901cfa,
+                },
+                overlays :  {
+                },
+            };
+            let layer_control_8d58f9036f8105cc9f197b64d047de71 = L.control.layers(
+                layer_control_8d58f9036f8105cc9f197b64d047de71_layers.base_layers,
+                layer_control_8d58f9036f8105cc9f197b64d047de71_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_804eef8b864b73ce49ec9770571bb7c9);
+
+        
+</script>
+</html>
