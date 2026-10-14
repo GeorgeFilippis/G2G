@@ -1,0 +1,33 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Grey to Green — Uppsala interactive maps</title><style>
+*{box-sizing:border-box} body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:#1f2a37;background:#eef1f4}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px 40px}
+header{background:linear-gradient(120deg,#10243f,#173a63);color:#fff;padding:30px 22px;text-align:center}
+header h1{margin:0 0 6px;font-size:24px} header p{margin:0;opacity:.85;font-size:15px}
+.intro{color:#475563;font-size:15px;line-height:1.5;margin:22px 4px}
+a.card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #dde3e9;border-left:6px solid #2e7d32;
+ border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:transform .08s,box-shadow .08s}
+a.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+a.card h2{margin:0 0 6px;font-size:18px;color:#10243f} a.card p{margin:0;color:#5b6b7b;font-size:14px;line-height:1.45}
+.go{display:inline-block;margin-top:10px;color:#2e7d32;font-weight:700;font-size:14px}
+.note{color:#5b6b7b;font-size:13px;line-height:1.5;margin:22px 4px 0}
+footer{text-align:center;color:#7a8794;font-size:13px;margin-top:26px}
+</style></head><body>
+<header><h1>Grey to Green — Uppsala</h1><p>AI-driven prioritization for urban nature-based solutions</p></header>
+<div class='wrap'>
+<p class='intro'>Interactive tree-planting suitability maps for Uppsala, made by carrying the Malmö model (Model 11) over to
+Uppsala's own data. Tap a map below, then click anywhere on it to see the score, the policy driver, and the rank for that location.</p>
+<a class='card' href='uppsala_m11_allpixels.html'><h2>Uppsala — all-pixel explorer (Model 11)</h2><p>Click any location for its suitability score, main policy driver and rank under Model 11. The whole study area at 10 m; zoom in over the Kapellgärdet test square (outlined in blue) for 1 m detail.</p><span class='go'>Open the interactive map &rarr;</span></a><a class='card' href='kapellgardet_m11_allpixels.html'><h2>Kapellgärdet — all-pixel explorer, 1 m test (Model 11)</h2><p>A 400 × 400 m test of the 1 m tier. Click any pixel for its score, its main driver and the policy behind it.</p><span class='go'>Open the interactive map &rarr;</span></a><a class='card' href='uppsala_m11_hotspots.html'><h2>Uppsala — Model 11 hotspot heatmap</h2><p>Priority clusters: a heat-glow of the top-20% pixels under Model 11.</p><span class='go'>Open the interactive map &rarr;</span></a>
+<p class='note'>Model 11 scores each place as need &times; conversion value &times; a people-nearby factor. Uppsala uses Malmö's rules and
+Malmö's weights, with Uppsala data: MSB's land-surface temperature for heat, Uppsala kommun's 2022 tree-canopy map, NMD 2023 land cover,
+Uppsala's detailed plans for zoning, and SCB statistics for people and income. Heat vulnerability has weight 0, because Uppsala has no
+index like Malmö's. A 10 m square is left out only when buildings cover more than half of it; squares that touch a road or a building
+are kept and marked for an on-site check. All maps use the same colour scale as the Malmö maps (green = 0, yellow = 0.375,
+dark red = 0.75 or more), so the same score has the same colour in both cities, at 10 m and at 1 m.</p>
+<p class='note'><b>The 1 m test square.</b> Uppsala has no land-cover map finer than 10 m, so for Kapellgärdet the ground at 0.25 m was
+drawn from map layers (buildings, roads, paths, parking, lawns, tree canopy). About a quarter of the square is ground none of them
+covers; there the 10 m sealed share was placed next to mapped paving, and the popup says when a pixel is such inferred ground.
+At 1 m, pixels are ranked within the square.</p>
+<footer>RISE Research Institutes of Sweden</footer>
+</div></body></html>
